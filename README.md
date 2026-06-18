@@ -23,3 +23,6 @@ Each content-heavy page has a `sections` folder. Edit the matching file without 
 - `src/pages/ContactPage/sections` — contact hero, details/form and map
 
 The page-level `.module.css` file contains the styles for its sections. Shared site components such as the header, footer, cart, product cards and buttons remain under `src/components`.
+
+
+https://krishna-sweets-three.vercel.app
