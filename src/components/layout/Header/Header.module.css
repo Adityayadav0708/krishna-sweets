@@ -123,24 +123,54 @@
   .desktopNav, .orderButton { display: none; }
   .menuButton { display: grid; }
   .mobileMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
     display: grid;
     max-height: 0;
     overflow: hidden;
-    padding-inline: 1rem;
+    padding-inline: max(1rem, calc((100% - var(--container)) / 2));
+    border-bottom: 1px solid rgba(129, 93, 32, 0.16);
     background: var(--color-ivory-50);
+    box-shadow: 0 1.5rem 3rem rgba(72, 16, 25, 0.16);
     opacity: 0;
-    transition: max-height 300ms ease, opacity 200ms ease, padding 300ms ease;
+    visibility: hidden;
+    transition:
+      max-height 300ms ease,
+      opacity 200ms ease,
+      padding 300ms ease,
+      visibility 0s linear 300ms;
   }
-  .mobileMenuOpen { max-height: 25rem; padding-block: 1rem 1.5rem; opacity: 1; }
+  .mobileMenuOpen {
+    max-height: calc(100dvh - 6.9rem);
+    overflow-y: auto;
+    padding-block: 0.55rem 1.25rem;
+    opacity: 1;
+    visibility: visible;
+    overscroll-behavior: contain;
+    transition-delay: 0s;
+  }
   .mobileMenu nav { display: grid; }
-  .mobileMenu a { padding: 0.85rem 0; border-bottom: var(--border-soft); color: var(--color-maroon-800); font-family: var(--font-display); font-size: 1.55rem; font-weight: 600; }
-  .mobileMenu p { margin: 1rem 0 0; color: var(--color-charcoal-700); font-size: var(--text-xs); }
+  .mobileMenu a {
+    min-height: 3.55rem;
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: var(--border-soft);
+    color: var(--color-maroon-800);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 600;
+  }
+  .mobileMenu p { margin: 0.85rem 0 0; color: var(--color-charcoal-700); font-size: var(--text-xs); }
 }
 
 @media (max-width: 36rem) {
   .announcementInner { justify-content: center; text-align: center; }
   .announcementInner a { display: none; }
   .navbar { min-height: 4.65rem; }
-  .logoLink :global(.copy) { display: none; }
+  .logoLink [data-brand-copy] { display: none; }
   .actions .iconButton:first-child { display: none; }
+  .mobileMenuOpen { max-height: calc(100dvh - 6.8rem); }
 }
