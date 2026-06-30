@@ -16,7 +16,10 @@ export function ProductDetailPage() {
     const product = products.find((entry) => entry.slug === slug);
     const { addItem, items, openCart, totalCount } = useCart();
     const [selectedImage, setSelectedImage] = useState(0);
-    const [selectedSize, setSelectedSize] = useState('500g');
+    const [selectedSize, setSelectedSize] = useState(() => {
+        if (!product) return '500g';
+        return product.sizes.some((size) => size.label === '500g') ? '500g' : product.sizes[0]?.label || '500g';
+    });
     const [quantity, setQuantity] = useState(1);
     const relatedProducts = useMemo(() => {
         if (!product)

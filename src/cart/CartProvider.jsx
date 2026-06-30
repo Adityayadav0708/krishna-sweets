@@ -8,7 +8,7 @@ const isCartLine = (value) => {
         return false;
     const line = value;
     return (typeof line.productId === 'string' &&
-        (line.size === '250g' || line.size === '500g' || line.size === '1kg') &&
+        typeof line.size === 'string' &&
         typeof line.quantity === 'number' &&
         Number.isFinite(line.quantity) &&
         line.quantity > 0);
@@ -48,13 +48,14 @@ export function CartProvider({ children }) {
         .filter((item) => Boolean(item))), [items]);
     const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
     const total = enrichedItems.reduce((sum, item) => sum + item.lineTotal, 0);
-    const addItem = useCallback((product, size = defaultSize, quantity = 1) => {
+    const addItem = useCallback((product, size, quantity = 1) => {
+        const chosenSize = size || product.sizes[0]?.label || defaultSize;
         setItems((current) => {
-            const existing = current.find((item) => item.productId === product.id && item.size === size);
+            const existing = current.find((item) => item.productId === product.id && item.size === chosenSize);
             if (!existing) {
-                return [...current, { productId: product.id, size, quantity }];
+                return [...current, { productId: product.id, size: chosenSize, quantity }];
             }
-            return current.map((item) => (item.productId === product.id && item.size === size
+            return current.map((item) => (item.productId === product.id && item.size === chosenSize
                 ? { ...item, quantity: item.quantity + quantity }
                 : item));
         });
